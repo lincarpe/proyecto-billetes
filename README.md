@@ -6,7 +6,7 @@
 
 | Integrante | Rol principal | GitHub |
 |---|---|---|
-| TU NOMBRE (equipo de una persona) | Datos, EDA, modelado y API | @lincarpe |
+| Lina Marcela Carvajal Perez (equipo de una persona) | Datos, EDA, modelado y API | @lincarpe |
 
 ## Problema de negocio
 

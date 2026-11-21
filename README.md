@@ -25,8 +25,31 @@ _(se completa en el módulo 02)_
 
 ```bash
 uv sync
-uv run jupyter lab
+uv run python -m src.limpieza     # genera data/processed/billetes_limpio.csv
+uv run python -m src.train        # compara modelos y guarda models/modelo.joblib
+uv run uvicorn api.main:app       # levanta la API en http://127.0.0.1:8000/docs
+uv run pytest                     # pruebas de la API
+uv run jupyter lab                # notebooks de EDA y modelado
 ```
+
+## API
+
+| Método | Ruta | Qué hace |
+|---|---|---|
+| GET | `/health` | Estado de la API y si el modelo está cargado |
+| POST | `/predict` | Recibe `variance`, `skewness`, `curtosis` y `entropy`; devuelve la clase, la probabilidad de que sea falso y si hay que aceptar o rechazar el billete |
+
+Ejemplo:
+
+```bash
+curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json"   -d '{"variance": -1.3971, "skewness": 3.3191, "curtosis": -1.3927, "entropy": -1.9948}'
+```
+
+Respuesta: `{"clase": 1, "etiqueta": "falso", "probabilidad_falso": 0.9946, "accion": "rechazar"}`
+
+## Resultados
+
+Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto; ver límites en `docs/05_modelado.md`.
 
 ## Estructura
 
@@ -49,5 +72,5 @@ uv run jupyter lab
 - [x] 05 EDA
 - [x] 06 Baseline
 - [x] 07 Pipeline de entrenamiento
-- [ ] 08 API
+- [x] 08 API
 - [ ] 09 Entrega final

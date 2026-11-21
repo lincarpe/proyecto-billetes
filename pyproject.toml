@@ -14,3 +14,7 @@ dependencies = [
     "seaborn>=0.13.2",
     "uvicorn[standard]>=0.54.0",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

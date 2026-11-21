@@ -41,13 +41,13 @@ uv run jupyter lab
 
 ## Avance
 
-- [ ] 00 Entorno con uv
+- [x] 00 Entorno con uv
 - [ ] 01 Repositorio en GitHub
-- [ ] 02 Problema y KPIs
-- [ ] 03 Project charter
-- [ ] 04 Limpieza
-- [ ] 05 EDA
-- [ ] 06 Baseline
-- [ ] 07 Pipeline de entrenamiento
+- [x] 02 Problema y KPIs
+- [x] 03 Project charter
+- [x] 04 Limpieza
+- [x] 05 EDA
+- [x] 06 Baseline
+- [x] 07 Pipeline de entrenamiento
 - [ ] 08 API
 - [ ] 09 Entrega final

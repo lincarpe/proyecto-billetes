@@ -4,6 +4,7 @@ Ejecutar:  uv run uvicorn api.main:app --reload
 Documentación interactiva: http://127.0.0.1:8000/docs
 """
 
+import json
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -15,6 +16,8 @@ from pydantic import BaseModel, Field
 from src.limpieza import FEATURES
 
 RUTA_MODELO = Path(__file__).resolve().parent.parent / "models" / "modelo.joblib"
+RUTA_METRICAS = RUTA_MODELO.parent / "metricas.json"
+MAX_LOTE = 100  # máximo de billetes por solicitud en /predict/batch
 UMBRAL = 0.5  # probabilidad de "falso" a partir de la cual se rechaza el billete
 
 estado: dict = {"modelo": None}
@@ -55,20 +58,50 @@ def health() -> dict:
     return {"status": "ok", "modelo_cargado": estado["modelo"] is not None}
 
 
-@app.post("/predict", response_model=Prediccion)
-def predict(billete: Billete) -> Prediccion:
-    modelo = estado["modelo"]
-    if modelo is None:
+def _predecir(modelo, billetes: list[Billete]) -> list[Prediccion]:
+    X = pd.DataFrame([b.model_dump() for b in billetes])[FEATURES]
+    probs = modelo.predict_proba(X)[:, 1]
+    resultado = []
+    for p in probs:
+        es_falso = float(p) >= UMBRAL
+        resultado.append(
+            Prediccion(
+                clase=int(es_falso),
+                etiqueta="falso" if es_falso else "auténtico",
+                probabilidad_falso=round(float(p), 4),
+                accion="rechazar" if es_falso else "aceptar",
+            )
+        )
+    return resultado
+
+
+def _modelo_o_503():
+    if estado["modelo"] is None:
         raise HTTPException(
             status_code=503,
             detail="Modelo no disponible. Entrénalo con: uv run python -m src.train",
         )
-    X = pd.DataFrame([billete.model_dump()])[FEATURES]
-    prob_falso = float(modelo.predict_proba(X)[0, 1])
-    es_falso = prob_falso >= UMBRAL
-    return Prediccion(
-        clase=int(es_falso),
-        etiqueta="falso" if es_falso else "auténtico",
-        probabilidad_falso=round(prob_falso, 4),
-        accion="rechazar" if es_falso else "aceptar",
-    )
+    return estado["modelo"]
+
+
+@app.get("/model-info")
+def model_info() -> dict:
+    """Metadata del modelo entrenado: cuál es, con qué semilla y qué métricas obtuvo en test."""
+    _modelo_o_503()
+    return json.loads(RUTA_METRICAS.read_text(encoding="utf-8"))
+
+
+@app.post("/predict", response_model=Prediccion)
+def predict(billete: Billete) -> Prediccion:
+    return _predecir(_modelo_o_503(), [billete])[0]
+
+
+@app.post("/predict/batch", response_model=list[Prediccion])
+def predict_batch(billetes: list[Billete]) -> list[Prediccion]:
+    """Clasifica varios billetes en una sola solicitud (máximo 100)."""
+    modelo = _modelo_o_503()
+    if not billetes:
+        raise HTTPException(status_code=422, detail="El lote no puede estar vacío.")
+    if len(billetes) > MAX_LOTE:
+        raise HTTPException(status_code=400, detail=f"El lote supera el máximo de {MAX_LOTE} billetes.")
+    return _predecir(modelo, billetes)

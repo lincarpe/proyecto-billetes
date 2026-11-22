@@ -37,6 +37,8 @@ uv run jupyter lab                # notebooks de EDA y modelado
 | Método | Ruta | Qué hace |
 |---|---|---|
 | GET | `/health` | Estado de la API y si el modelo está cargado |
+| GET | `/model-info` | Metadata del modelo: cuál es y qué métricas obtuvo en test |
+| POST | `/predict/batch` | Igual que `/predict` pero recibe una lista de hasta 100 billetes |
 | POST | `/predict` | Recibe `variance`, `skewness`, `curtosis` y `entropy`; devuelve la clase, la probabilidad de que sea falso y si hay que aceptar o rechazar el billete |
 
 Ejemplo:

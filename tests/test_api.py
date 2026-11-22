@@ -64,3 +64,23 @@ def test_predict_sin_modelo_devuelve_503():
     finally:
         main.estado["modelo"] = guardado
     assert r.status_code == 503
+
+
+def test_predict_batch(client):
+    r = client.post("/predict/batch", json=[AUTENTICO, FALSO])
+    assert r.status_code == 200
+    assert [p["clase"] for p in r.json()] == [0, 1]
+
+
+def test_predict_batch_demasiado_grande(client):
+    assert client.post("/predict/batch", json=[AUTENTICO] * 101).status_code == 400
+
+
+def test_predict_batch_vacio(client):
+    assert client.post("/predict/batch", json=[]).status_code == 422
+
+
+def test_model_info(client):
+    r = client.get("/model-info")
+    assert r.status_code == 200
+    assert r.json()["modelo_elegido"] == "svm_rbf"

@@ -4,6 +4,7 @@ Uso:  uv run python -m src.train
 """
 
 import json
+import logging
 from pathlib import Path
 
 import joblib
@@ -12,6 +13,8 @@ from sklearn.metrics import confusion_matrix, f1_score, make_scorer, precision_s
 from sklearn.model_selection import StratifiedKFold, cross_validate
 
 from src.pipeline import SEED, candidatos, cargar_datos, partir
+
+logger = logging.getLogger(__name__)
 
 MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
 SCORING = {
@@ -51,7 +54,7 @@ def main() -> None:
     X_train, X_test, y_train, y_test = partir(X, y)
 
     tabla = comparar(X_train, y_train)
-    print(tabla.round(4).to_string(index=False))
+    logger.info("Validación cruzada:\n%s", tabla.round(4).to_string(index=False))
 
     # Se elige por F1 en validación cruzada entre los modelos que no son baseline.
     elegido = tabla[~tabla["modelo"].str.startswith("baseline")].iloc[0]["modelo"]
@@ -59,8 +62,8 @@ def main() -> None:
 
     # El conjunto de prueba se usa UNA sola vez, con el modelo ya elegido.
     resultado = {"modelo_elegido": elegido, "semilla": SEED, "test": metricas_test(pipe, X_test, y_test)}
-    print("\nModelo elegido:", elegido)
-    print(json.dumps(resultado["test"], indent=2))
+    logger.info("Modelo elegido: %s", elegido)
+    logger.info("Métricas en test:\n%s", json.dumps(resultado["test"], indent=2))
 
     # Para producción, el modelo final se reentrena con todos los datos.
     final = candidatos()[elegido].fit(X, y)
@@ -70,8 +73,9 @@ def main() -> None:
     (MODELS_DIR / "metricas.json").write_text(
         json.dumps(resultado, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    print(f"\nGuardado en {MODELS_DIR}")
+    logger.info("Guardado en %s", MODELS_DIR)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     main()

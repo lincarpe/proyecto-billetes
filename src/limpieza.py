@@ -1,8 +1,11 @@
 """Carga y limpieza del dataset Banknote Authentication."""
 
+import logging
 from pathlib import Path
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 RAIZ = Path(__file__).resolve().parent.parent
 RUTA_RAW = RAIZ / "data" / "raw" / "banknote" / "data_banknote_authentication.txt"
@@ -31,8 +34,9 @@ def main() -> None:
     limpio = limpiar(df)
     RUTA_PROCESADO.parent.mkdir(parents=True, exist_ok=True)
     limpio.to_csv(RUTA_PROCESADO, index=False)
-    print(f"raw: {df.shape} -> limpio: {limpio.shape}. Guardado en {RUTA_PROCESADO}")
+    logger.info("raw: %s -> limpio: %s. Guardado en %s", df.shape, limpio.shape, RUTA_PROCESADO)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     main()

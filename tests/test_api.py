@@ -84,3 +84,9 @@ def test_model_info(client):
     r = client.get("/model-info")
     assert r.status_code == 200
     assert r.json()["modelo_elegido"] == "svm_rbf"
+
+
+def test_raiz_redirige_a_docs(client):
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code in (302, 307)
+    assert r.headers["location"] == "/docs"

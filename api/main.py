@@ -11,6 +11,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
 from src.limpieza import FEATURES
@@ -51,6 +52,12 @@ class Prediccion(BaseModel):
     etiqueta: str
     probabilidad_falso: float = Field(ge=0, le=1)
     accion: str = Field(description="Aceptar o rechazar el billete")
+
+
+@app.get("/", include_in_schema=False)
+def inicio() -> RedirectResponse:
+    """La raíz lleva a la documentación interactiva."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/health")

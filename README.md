@@ -1,4 +1,4 @@
-# Autenticación de billetes falsos
+# CLASIFICACIÓN DE BILLETES AUTENTICOS Y FALSOS
 
 > Clasificar si un billete es auténtico o falso a partir de características extraídas de su imagen.
 

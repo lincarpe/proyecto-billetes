@@ -51,29 +51,52 @@ Respuesta: `{"clase": 1, "etiqueta": "falso", "probabilidad_falso": 0.9946, "acc
 
 ## Resultados
 
-Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto.
+Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto; ver límites en `docs/05_modelado.md`.
 
 ## Estructura
 
 ```
-├── data/raw/          ← datos originales
-├── data/processed/    ← datos limpios (generados)
-├── notebooks/         ← exploración
-├── src/               ← código reutilizable (limpieza, train, api)
-└── models/            ← modelos entrenados (generados)
+proyecto-billetes/
+├── README.md                    ← este archivo
+├── pyproject.toml, uv.lock      ← dependencias y versiones exactas (uv, Python 3.14)
+├── api/
+│   └── main.py                  ← API FastAPI: /health, /model-info, /predict, /predict/batch
+├── data/
+│   ├── raw/banknote/            ← dataset original (no se modifica)
+│   └── processed/               ← datos limpios (se generan)
+├── docs/                        ← un documento por etapa del proyecto
+│   ├── 00_entorno_uv.md
+│   ├── 01_problema_y_kpis.md
+│   ├── 02_project_charter.md
+│   ├── 03_decisiones_limpieza.md
+│   ├── 04_eda.md
+│   ├── 05_modelado.md
+│   └── 06_pipeline.md
+├── models/                      ← modelo entrenado y métricas (se generan)
+├── notebooks/
+│   ├── 05_eda.ipynb             ← análisis exploratorio
+│   └── 06_modelado.ipynb        ← baselines y comparación de modelos
+├── src/
+│   ├── limpieza.py              ← limpieza de datos
+│   ├── pipeline.py              ← preprocesamiento y candidatos de modelo
+│   └── train.py                 ← entrena, evalúa en test y guarda el modelo
+├── tests/
+│   └── test_api.py              ← pruebas de la API
+└── .github/
+    └── pull_request_template.md
 ```
 
 ## Avance
 
-| # | Punto | Estado |
-|---|---|---|
-| 00 | Entorno con uv | hecho |
-| 01 | Repositorio en GitHub | hecho |
-| 02 | Problema y KPIs | hecho |
-| 03 | Project charter | hecho |
-| 04 | Limpieza | hecho |
-| 05 | EDA | hecho |
-| 06 | Baseline y modelado | hecho |
-| 07 | Pipeline de entrenamiento | hecho |
-| 08 | API | hecho |
-| 09 | Entrega final | pendiente |
+| Módulo | Punto | Estado | Documento |
+|---|---|---|---|
+| 00 | Entorno con uv | hecho | [`docs/00_entorno_uv.md`](docs/00_entorno_uv.md) |
+| 01 | Repositorio en GitHub | hecho | este repositorio |
+| 02 | Problema y KPIs | hecho | [`docs/01_problema_y_kpis.md`](docs/01_problema_y_kpis.md) |
+| 03 | Project charter | hecho | [`docs/02_project_charter.md`](docs/02_project_charter.md) |
+| 04 | Limpieza | hecho | [`docs/03_decisiones_limpieza.md`](docs/03_decisiones_limpieza.md) |
+| 05 | EDA | hecho | [`docs/04_eda.md`](docs/04_eda.md) |
+| 06 | Baseline y modelado | hecho | [`docs/05_modelado.md`](docs/05_modelado.md) |
+| 07 | Pipeline de entrenamiento | hecho | [`docs/06_pipeline.md`](docs/06_pipeline.md) |
+| 08 | API | hecho | sección "API" de este README |
+| 09 | Entrega final | pendiente | |

@@ -24,7 +24,7 @@ def cargar_raw(ruta: Path = RUTA_RAW) -> pd.DataFrame:
 def limpiar(df: pd.DataFrame) -> pd.DataFrame:
     """Elimina filas duplicadas exactas y reinicia el índice.
 
-    No hay nulos ni valores fuera de rango que tratar (ver docs/03_decisiones_limpieza.md).
+    No hay nulos ni valores fuera de rango que tratar.
     """
     return df.drop_duplicates().reset_index(drop=True)
 

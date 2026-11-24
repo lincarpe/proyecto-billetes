@@ -51,14 +51,13 @@ Respuesta: `{"clase": 1, "etiqueta": "falso", "probabilidad_falso": 0.9946, "acc
 
 ## Resultados
 
-Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto; ver límites en `docs/05_modelado.md`.
+Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto.
 
 ## Estructura
 
 ```
 ├── data/raw/          ← datos originales
 ├── data/processed/    ← datos limpios (generados)
-├── docs/              ← problema, charter, decisiones
 ├── notebooks/         ← exploración
 ├── src/               ← código reutilizable (limpieza, train, api)
 └── models/            ← modelos entrenados (generados)
@@ -66,13 +65,15 @@ Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (27
 
 ## Avance
 
-- [x] 00 Entorno con uv
-- [ ] 01 Repositorio en GitHub
-- [x] 02 Problema y KPIs
-- [x] 03 Project charter
-- [x] 04 Limpieza
-- [x] 05 EDA
-- [x] 06 Baseline
-- [x] 07 Pipeline de entrenamiento
-- [x] 08 API
-- [ ] 09 Entrega final
+| # | Punto | Estado |
+|---|---|---|
+| 00 | Entorno con uv | hecho |
+| 01 | Repositorio en GitHub | hecho |
+| 02 | Problema y KPIs | hecho |
+| 03 | Project charter | hecho |
+| 04 | Limpieza | hecho |
+| 05 | EDA | hecho |
+| 06 | Baseline y modelado | hecho |
+| 07 | Pipeline de entrenamiento | hecho |
+| 08 | API | hecho |
+| 09 | Entrega final | pendiente |

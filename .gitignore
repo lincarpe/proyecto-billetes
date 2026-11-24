@@ -52,5 +52,6 @@ Thumbs.db
 # =============================================================================
 # **/soluciones/
 
-# local notes, not part of the repo
-docs/
+# personal notes, not part of the repo
+docs/guia_presentacion_y_estudio.md
+docs/acuerdos_equipo.md

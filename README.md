@@ -10,7 +10,7 @@
 
 ## Problema de negocio
 
-_(se completa en el módulo 02)_
+Quien opera un cajero automático, una máquina de conteo o una caja de un comercio decide si acepta o rechaza un billete. Rechazar uno bueno molesta al cliente. Aceptar uno falso es una pérdida directa de dinero y un problema legal. El proyecto clasifica cada billete como auténtico o falso a partir de 4 características de su imagen, priorizando detectar los falsos. Detalle y KPIs en [`docs/01_problema_y_kpis.md`](docs/01_problema_y_kpis.md).
 
 ## Dataset
 
@@ -58,6 +58,7 @@ Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (27
 ```
 proyecto-billetes/
 ├── README.md                    ← este archivo
+├── 00-Entornos-uv/ … 09-Proyecto-Final/   ← un índice por módulo del curso (enlazan al código y a docs/)
 ├── pyproject.toml, uv.lock      ← dependencias y versiones exactas (uv, Python 3.14)
 ├── api/
 │   └── main.py                  ← API FastAPI: /health, /model-info, /predict, /predict/batch
@@ -90,13 +91,13 @@ proyecto-billetes/
 
 | Módulo | Punto | Estado | Documento |
 |---|---|---|---|
-| 00 | Entorno con uv | hecho | [`docs/00_entorno_uv.md`](docs/00_entorno_uv.md) |
-| 01 | Repositorio en GitHub | hecho | este repositorio |
-| 02 | Problema y KPIs | hecho | [`docs/01_problema_y_kpis.md`](docs/01_problema_y_kpis.md) |
-| 03 | Project charter | hecho | [`docs/02_project_charter.md`](docs/02_project_charter.md) |
-| 04 | Limpieza | hecho | [`docs/03_decisiones_limpieza.md`](docs/03_decisiones_limpieza.md) |
-| 05 | EDA | hecho | [`docs/04_eda.md`](docs/04_eda.md) |
-| 06 | Baseline y modelado | hecho | [`docs/05_modelado.md`](docs/05_modelado.md) |
-| 07 | Pipeline de entrenamiento | hecho | [`docs/06_pipeline.md`](docs/06_pipeline.md) |
-| 08 | API | hecho | sección "API" de este README |
-| 09 | Entrega final | pendiente | |
+| [00](00-Entornos-uv/) | Entorno con uv | hecho | [`docs/00_entorno_uv.md`](docs/00_entorno_uv.md) |
+| [01](01-Git-GitHub/) | Repositorio en GitHub | hecho | este repositorio |
+| [02](02-BI-Analitica/) | Problema y KPIs | hecho | [`docs/01_problema_y_kpis.md`](docs/01_problema_y_kpis.md) |
+| [03](03-CRISP-DM/) | Project charter | hecho | [`docs/02_project_charter.md`](docs/02_project_charter.md) |
+| [04](04-Preparacion-Datos/) | Limpieza | hecho | [`docs/03_decisiones_limpieza.md`](docs/03_decisiones_limpieza.md) |
+| [05](05-EDA/) | EDA | hecho | [`docs/04_eda.md`](docs/04_eda.md) |
+| [06](06-Modelado-Metricas/) | Baseline y modelado | hecho | [`docs/05_modelado.md`](docs/05_modelado.md) |
+| [07](07-Pipelines/) | Pipeline de entrenamiento | hecho | [`docs/06_pipeline.md`](docs/06_pipeline.md) |
+| [08](08-API-FastAPI/) | API | hecho | sección "API" de este README |
+| [09](09-Proyecto-Final/) | Entrega final | pendiente | |

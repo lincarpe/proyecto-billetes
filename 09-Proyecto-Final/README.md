@@ -12,6 +12,8 @@
 | Notebooks de EDA y modelado | [`notebooks/`](../notebooks/) |
 | API y pruebas | [`api/`](../api/) y [`tests/`](../tests/) |
 | Entorno reproducible | [`pyproject.toml`](../pyproject.toml) y [`uv.lock`](../uv.lock) |
+| API en contenedor | [`Dockerfile`](../Dockerfile) |
+| Pruebas automáticas en cada pull request | [`.github/workflows/pruebas.yml`](../.github/workflows/pruebas.yml) |
 
 ## Reproducir el proyecto desde cero
 

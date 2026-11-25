@@ -1,0 +1,34 @@
+name: Pruebas
+
+# Corre las pruebas en cada pull request y en cada push a main.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+
+      - name: Instalar dependencias (versiones de uv.lock)
+        run: uv sync --locked
+
+      - name: Limpiar datos
+        run: uv run python -m src.limpieza
+
+      - name: Entrenar el modelo
+        run: uv run python -m src.train
+
+      - name: Correr las pruebas
+        run: uv run pytest -v

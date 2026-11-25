@@ -49,6 +49,19 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json"  
 
 Respuesta: `{"clase": 1, "etiqueta": "falso", "probabilidad_falso": 0.9946, "accion": "rechazar"}`
 
+## Docker
+
+La API también corre en un contenedor, sin instalar Python ni uv (solo Docker). El modelo se entrena al construir la imagen.
+
+```bash
+docker build -t billetes-api .
+docker run --rm -p 8000:8000 billetes-api    # http://127.0.0.1:8000/docs
+```
+
+## Integración continua
+
+En cada pull request y en cada push a `main`, GitHub Actions instala las dependencias, limpia los datos, entrena el modelo y corre las pruebas ([`.github/workflows/pruebas.yml`](.github/workflows/pruebas.yml)).
+
 ## Resultados
 
 Modelo: SVM con kernel RBF. En validación cruzada, exactitud 0,999. En test (270 billetes): recall de falsos 1,00, precisión 1,00 y 0 % de billetes buenos rechazados. Con tan pocos datos de prueba esto no significa que el modelo sea perfecto; ver límites en `docs/05_modelado.md`.
@@ -83,7 +96,9 @@ proyecto-billetes/
 │   └── train.py                 ← entrena, evalúa en test y guarda el modelo
 ├── tests/
 │   └── test_api.py              ← pruebas de la API
+├── Dockerfile, .dockerignore    ← imagen de la API
 └── .github/
+    ├── workflows/pruebas.yml    ← pruebas automáticas (GitHub Actions)
     └── pull_request_template.md
 ```
 
